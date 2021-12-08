@@ -5,6 +5,15 @@ import sqlite3
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Load Data from csv files
+    
+    Inputs:
+        messages_filepath: path to messages csv file
+        categories_filepath:  path to categories csv file
+    Output:
+        df:  Loaded data as DataFrame
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, on='id')
@@ -35,12 +44,28 @@ def load_data(messages_filepath, categories_filepath):
     return df
 
 def clean_data(df):
+    """
+    Clean Dataframe
+    
+    Inputs:
+        df: A dataFrame contains uncleaned data
+    Outputs:
+        df: cleaned dataFrame
+    """
+
     # drop duplicates
     df.drop_duplicates(inplace = True)
     return df
 
 
 def save_data(df, database_filename):
+    """
+    Save datafream to database_filename
+    
+    Inputs:
+        df: Cleaned dataFrame
+        database_filename: database file (.db).
+    """
     engine = create_engine('sqlite:///'+ database_filename)
     df.to_sql('disaster_messages_tl', engine, index=False, if_exists='replace')  
 
