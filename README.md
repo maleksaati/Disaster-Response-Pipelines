@@ -28,12 +28,11 @@ There are three components for this project.
 
 **1. ETL Pipeline**
 
-process_data.py` a script for data cleaning that loads the  `messages`  and  `categories`  datasets, Cleans the data and stores it in a SQLite database
+`process_data.py` a script for data cleaning that loads the  `messages`  and  `categories`  datasets, Cleans the data and stores it in a SQLite database
 
 **2. ML Pipeline**
 
-`train_classifier.py` a machine learning pipeline that:
--   Loads data from the SQLite database and builds a text processing, machine learning pipeline and exports the final model as a pickle file
+`train_classifier.py` a machine learning pipeline that loads data from the SQLite database and builds a text processing, machine learning pipeline and exports the final model as a pickle file
 
 **3. Flask Web App**
 this part will display the results in a Flask web app.
