@@ -25,6 +25,7 @@ Here's the file structure of the project:
 - README.md
 ```
 There are three components for this project.
+
 **1. ETL Pipeline**
 
 process_data.py` a script for data cleaning that loads the  `messages`  and  `categories`  datasets, Cleans the data and stores it in a SQLite database
