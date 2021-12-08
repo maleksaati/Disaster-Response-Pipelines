@@ -28,6 +28,17 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 
 def load_data(database_filepath):
+    """
+    Load Data Function
+    
+    Inputs:
+        database_filepath -> path to SQLite db
+    Returns:
+        X -> list all messages.
+        Y -> categories for each message.
+        category_names -> list all categories.
+    """
+
     engine = create_engine('sqlite:///' + database_filepath)
     conn = engine.connect()
     df = pd.read_sql('SELECT * FROM disaster_messages_tl', con = conn)
@@ -39,6 +50,13 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """Tokenize message (a disaster message).
+    Inputs:
+        text: String, A disaster message.
+    Returns:
+        list. contains tokens for the text.
+    """
+
     stop_words = stopwords.words("english")
     lemmatizer = WordNetLemmatizer()
     
@@ -55,6 +73,11 @@ def tokenize(text):
 
 
 def build_model():
+
+    """Build model.
+    Returns:
+        pipline: RandomForestClassifier. 
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -70,6 +93,15 @@ def build_model():
 
 
 def evaluate_model(model, X_test, y_test, category_names):
+
+    """Evaluate model
+    Inputs:
+        model: RandomForestClassifier.
+        X_test: numpy.ndarray. Disaster messages.
+        Y_test: numpy.ndarray. Disaster categories for each messages
+        category_names: Disaster category names.
+    """
+
     y_pred = model.predict (X_test)
     results = pd.DataFrame(columns=['category','precision','recall','fscore', 'accuracy'])
 
@@ -80,6 +112,11 @@ def evaluate_model(model, X_test, y_test, category_names):
     return results
 
 def save_model(model, model_filepath):
+    """Save model
+    Inputs:
+        model: RandomForestClassifier
+        model_filepath: Trained model is saved as pickel into model_filepath
+    """
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
