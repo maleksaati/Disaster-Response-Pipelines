@@ -18,7 +18,19 @@ def load_data(messages_filepath, categories_filepath):
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(messages, categories, on='id')
     
-    categories =  categories.categories.str.split(';', expand=True)
+    return df
+
+def clean_data(df):
+    """
+    Clean Dataframe
+    
+    Inputs:
+        df: A dataFrame contains uncleaned data
+    Outputs:
+        df: cleaned dataFrame
+    """
+
+    categories =  df.categories.str.split(';', expand=True)
     # select the first row of the categories dataframe
     row = categories[:1]
     
@@ -34,24 +46,16 @@ def load_data(messages_filepath, categories_filepath):
 
         # convert column from string to numeric
         categories[column] = categories[column].astype(int)
-    
+         
+        # convert values that is grater than 1 to 1
+       
+        df.loc[df.Counts != 0, 'mean'] = 1
     
     # drop the original categories column from `df`
     df = df.drop(['categories'],axis = 1)
     
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1, join = 'inner' )
-    return df
-
-def clean_data(df):
-    """
-    Clean Dataframe
-    
-    Inputs:
-        df: A dataFrame contains uncleaned data
-    Outputs:
-        df: cleaned dataFrame
-    """
 
     # drop duplicates
     df.drop_duplicates(inplace = True)

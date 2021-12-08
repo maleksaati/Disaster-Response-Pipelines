@@ -109,6 +109,8 @@ def evaluate_model(model, X_test, y_test, category_names):
         precision,recall,fscore,support=precision_recall_fscore_support(y_test[:,i],y_pred[:,i], average='weighted')
         accuracy = (y_test[:,i] == y_pred[:,i]).mean()
         results = results.append({'category': cat, 'precision': precision, 'recall': recall, 'fscore' : fscore, 'accuracy': accuracy}, ignore_index = True)
+
+    print(results)
     return results
 
 def save_model(model, model_filepath):
